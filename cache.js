@@ -1,6 +1,6 @@
 var cache = (function() {
 
-  this.cache = [];
+  var memoCache = [];
 
   this.queryCache = function(string) {
 
@@ -9,32 +9,34 @@ var cache = (function() {
       throw new TypeError('Cache query received invalid input: ' + string);
     }
 
-    for(var i = 0; i < this.cache.length; i++) {
+    if(memoCache.length === 0) {
 
-      if( this.cache[i][0] === string) {
+      return addToCache(string);
+    }
 
-        return this.cache[i][1];
-      }
+    for(var i = 0; i < memoCache.length; i++) {
 
-      var element = document.querySelector(string);
+      if( memoCache[i][0] === string) {
 
-      if(element) {
-
-        this.addToCache(string, element);
-        return element;
-
-      } else {
-
-        return null;
+        return memoCache[i][1];
       }
     }
 
+    return addToCache(string);
   };
 
   this.addToCache = function(string, element) {
 
-    var memo = [ string, element ];
-    this.cache.push(memo);
+    var element = document.querySelector(string);
+
+    if(element) {
+
+      var memo = [ string, element ];
+      memoCache.push(memo);
+      return element;
+    }
+
+    return null;
   };
 
   this.removeFromCache = function(string) {
@@ -44,11 +46,11 @@ var cache = (function() {
       throw new TypeError('Remove from cache request received invalid input: ' + string);
     }
 
-    for(var i = 0;i < this.cache.length; i++) {
+    for(var i = 0;i < memoCache.length; i++) {
 
-      if( this.cache[i][0] === string) {
+      if( memoCache[i][0] === string) {
 
-        this.cache.splice(i,1);
+        memoCache.splice(i,1);
       }
     }
   }
@@ -60,3 +62,13 @@ var cache = (function() {
 
   }
 })();
+
+//spot testing
+window.onload = function() {
+
+  console.log(cache.queryCache("#myDiv"));
+  console.log(cache.queryCache('#myDiv'));
+  console.log(cache.queryCache('body'));
+  console.log(cache.queryCache('#junk'));
+
+}
