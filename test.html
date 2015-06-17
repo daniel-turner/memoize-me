@@ -13,6 +13,17 @@ function myFunction() {
 }
 </script>
 <script src="./cache.js" type="text/javascript"></script>
+<script>
+//spot testing
+window.onload = function() {
+
+  console.log(cache.queryCache("#myDiv"));
+  console.log(cache.queryCache('#myDiv'));
+  console.log(cache.queryCache('body'));
+  console.log(cache.queryCache('#junk'));
+
+}
+</script>
 
 </body>
 </html>

@@ -25,7 +25,7 @@ var cache = (function() {
     return addToCache(string);
   };
 
-  this.addToCache = function(string, element) {
+  this.addToCache = function(string) {
 
     var element = document.querySelector(string);
 
@@ -63,12 +63,3 @@ var cache = (function() {
   }
 })();
 
-//spot testing
-window.onload = function() {
-
-  console.log(cache.queryCache("#myDiv"));
-  console.log(cache.queryCache('#myDiv'));
-  console.log(cache.queryCache('body'));
-  console.log(cache.queryCache('#junk'));
-
-}
